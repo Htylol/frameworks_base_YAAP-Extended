@@ -845,7 +845,8 @@ public class ApplicationPackageManager extends PackageManager {
                 name.contains("PIXEL_2022_MIDYEAR_EXPERIENCE"))) {
             return false;
         }
-        return mHasSystemFeatureCache.query(new HasSystemFeatureQuery(name, version));
+        boolean hasSystemFeature = mHasSystemFeatureCache.query(new HasSystemFeatureQuery(name, version));
+        return com.android.internal.util.android.PropsHooksUtils.hasSystemFeature(name, version, hasSystemFeature);
     }
 
     /** @hide */
