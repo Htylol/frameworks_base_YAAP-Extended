@@ -7750,6 +7750,12 @@ public final class Settings {
         public static final Uri CONTENT_URI =
             Uri.parse("content://" + AUTHORITY + "/secure");
 
+        /**
+         * Whether to use the black theme
+         * @hide
+         */
+        public static final String BERRY_BLACK_THEME = "berry_black_theme";
+
         @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.R, trackingBug = 170729553)
         private static final ContentProviderHolder sProviderHolder =
                 new ContentProviderHolder(CONTENT_URI);
