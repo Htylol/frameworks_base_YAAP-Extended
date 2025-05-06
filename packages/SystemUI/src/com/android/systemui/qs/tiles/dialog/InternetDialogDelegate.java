@@ -313,7 +313,7 @@ public class InternetDialogDelegate implements
         mWifiRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mWifiRecyclerView.setAdapter(mAdapter);
 
-        updateDialogUI(getWifiNetworkContent(), false);
+        updateDialogUI(getWifiNetworkContent());
         setHotspotLayout();
     }
 
@@ -399,7 +399,7 @@ public class InternetDialogDelegate implements
 
         updateEthernet(internetContent);
         
-        if (!shouldUpdateHotspot) {
+        if (!internetContent.shouldUpdateHotspot) {
             setMobileDataLayout(internetContent);
         }
 
@@ -1005,6 +1005,14 @@ public class InternetDialogDelegate implements
         boolean mHasActiveSubIdOnDds = false;
         boolean mIsDeviceLocked = false;
         boolean mIsWifiScanEnabled = false;
+        boolean shouldUpdateHotspot = false;
         int mActiveAutoSwitchNonDdsSubId = SubscriptionManager.INVALID_SUBSCRIPTION_ID;
+    }
+
+    private void setHotspotLayout() {
+        if (mDialog == null) return;
+        
+        // Add hotspot layout setup here if needed
+        // This is a placeholder implementation
     }
 }
