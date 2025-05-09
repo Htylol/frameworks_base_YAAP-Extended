@@ -774,13 +774,19 @@ public class QSPanel extends LinearLayout {
                     horizontal && mUsingMediaPlayer ? mHorizontalContentContainer : this;
             if (SceneContainerFlag.isEnabled()) return;
             switchAllContentToParent(newParent, mTileLayout);
+            if (mBrightnessRunnable != null) {
+                updateResources();
+                mBrightnessRunnable.run();
+            }
             reAttachMediaHost(mediaHostView, horizontal);
-            if (needsDynamicRowsAndColumns()) {
-                setColumnRowLayout(horizontal);
+            needsDynamicRowsAndColumns();
+            if (SceneContainerFlag.isEnabled()) {
+                placeTileLayoutForScene(horizontal);
             }
             updateMargins(mediaHostView);
-            if (mHorizontalLinearLayout == null) return;
-            mHorizontalLinearLayout.setVisibility(horizontal ? View.VISIBLE : View.GONE);
+            if (mHorizontalLinearLayout != null) {
+                mHorizontalLinearLayout.setVisibility(horizontal ? View.VISIBLE : View.GONE);
+            }
         }
     }
 
