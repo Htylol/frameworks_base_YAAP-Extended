@@ -326,5 +326,6 @@ public class SecureSettings {
         Settings.Secure.UI_NIGHT_MODE_DIM_WALL_AMOUNT,
         Settings.Secure.UI_NIGHT_LIGHT_DIM_WALL,
         Settings.Secure.UI_NIGHT_LIGHT_DIM_WALL_AMOUNT,
+        Settings.Secure.BERRY_BLACK_THEME,
     };
 }
