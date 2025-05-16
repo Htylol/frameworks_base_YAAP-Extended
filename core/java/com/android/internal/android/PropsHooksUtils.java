@@ -34,6 +34,7 @@ import java.util.Set;
 public class PropsHooksUtils {
 
     private static final String TAG = PropsHooksUtils.class.getSimpleName();
+    private static final boolean DEBUG = false;
     //private static final String PROP_HOOKS = "persist.sys.pihooks_";
     //private static final String PROP_HOOKS_MAINLINE = "persist.sys.pihooks_mainline_";
     //private static final boolean DEBUG = SystemProperties.getBoolean(PROP_HOOKS + "DEBUG", false);
