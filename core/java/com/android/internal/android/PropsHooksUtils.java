@@ -34,14 +34,14 @@ import java.util.Set;
 public class PropsHooksUtils {
 
     private static final String TAG = PropsHooksUtils.class.getSimpleName();
-    private static final String PROP_HOOKS = "persist.sys.pihooks_";
-    private static final String PROP_HOOKS_MAINLINE = "persist.sys.pihooks_mainline_";
-    private static final boolean DEBUG = SystemProperties.getBoolean(PROP_HOOKS + "DEBUG", false);
+    //private static final String PROP_HOOKS = "persist.sys.pihooks_";
+    //private static final String PROP_HOOKS_MAINLINE = "persist.sys.pihooks_mainline_";
+    //private static final boolean DEBUG = SystemProperties.getBoolean(PROP_HOOKS + "DEBUG", false);
 
     public static final String SPOOF_PIXEL_GMS = "persist.sys.pixelprops.gms";
     public static final String SPOOF_PIXEL_GPHOTOS = "persist.sys.pixelprops.gphotos";
-    public static final String SPOOF_GAMES = "persist.sys.gameprops.enable";
-    public static final String SPOOF_NETFLIX = "persist.sys.pixelprops.netflix";
+    //public static final String SPOOF_GAMES = "persist.sys.gameprops.enable";
+    //public static final String SPOOF_NETFLIX = "persist.sys.pixelprops.netflix";
     
     private static volatile boolean sIsGms, sIsFinsky, sIsPhotos, sIsNetflix;
 
@@ -176,9 +176,9 @@ public class PropsHooksUtils {
         };
         
         GMS_SPOOF_PROPERTIES = new String[GMS_SPOOF_KEYS.length];
-        for (int i = 0; i < GMS_SPOOF_KEYS.length; i++) {
-            GMS_SPOOF_PROPERTIES[i] = PROP_HOOKS + GMS_SPOOF_KEYS[i];
-        }
+        //for (int i = 0; i < GMS_SPOOF_KEYS.length; i++) {
+        //    GMS_SPOOF_PROPERTIES[i] = PROP_HOOKS + GMS_SPOOF_KEYS[i];
+        //}
     }
 
     private static void addToPackageMap(Set<String> packages, Map<String, Object> props) {
@@ -197,64 +197,15 @@ public class PropsHooksUtils {
     public static void setProps(Context context) {
         if (context == null) return;
         
-        boolean currentIsDeviceTablet = isDeviceTablet(context);
-
-        if (lastIsDeviceTablet == null || lastIsDeviceTablet != currentIsDeviceTablet) {
-            packagePropsMap.keySet().removeAll(pubgPackages);
-            addToPackageMap(pubgPackages, currentIsDeviceTablet ? propsToChangeS9Tab : propsToChangeROG8P);
-            lastIsDeviceTablet = currentIsDeviceTablet;
-        }
-
+        // Оставляем только spoof для Google Photos
         String packageName = context.getPackageName();
-
         if (TextUtils.isEmpty(packageName)) {
             return;
         }
-
-        final String processName = Application.getProcessName();
-        if (TextUtils.isEmpty(processName)) {
-            return;
-        }
-
-        if (shoudlSpoofGames()) {
-            Map<String, Object> propsToChange = packagePropsMap.get(packageName);
-            if (propsToChange != null) {
-                dlog("Defining props for: " + packageName);
-                for (Map.Entry<String, Object> prop : propsToChange.entrySet()) {
-                    String key = prop.getKey();
-                    Object value = prop.getValue();
-                    setPropValue(key, value);
-                }
-            }
-        }
-
-        sIsGms = packageName.equals("com.google.android.gms") 
-            && processName.toLowerCase().contains("unstable");
-        sIsFinsky = packageName.equals("com.android.vending");
         sIsPhotos = packageName.equals("com.google.android.apps.photos");
-        sIsNetflix = packageName.equals("com.netflix.mediaclient");
-        
-        if (shouldSpoofNetflix()) {
-            for (Map.Entry<String, Object> entry : propsToChangeS9Tab.entrySet()) {
-                setPropValue(entry.getKey(), entry.getValue());
-            }
-        }
-
         if (shouldSpoofPhotos()) {
             for (Map.Entry<String, Object> entry : propsToChangePixelXL.entrySet()) {
                 setPropValue(entry.getKey(), entry.getValue());
-            }
-        }
-
-        if (packageName.equals("com.google.android.settings.intelligence")) {
-            setPropValue("FINGERPRINT", "eng.nobody." +
-                new java.text.SimpleDateFormat("yyyyMMdd.HHmmss").format(new java.util.Date()));
-        }
-
-        if (sIsGms) {
-            setPropValue("TIME", System.currentTimeMillis());
-            if (shouldSpoofGMS()) {
-                spoofBuildGms();
             }
         }
     }
@@ -317,11 +268,11 @@ public class PropsHooksUtils {
     }
 
     public static boolean shoudlSpoofGames() {
-        return SystemProperties.getBoolean(SPOOF_GAMES, false);
+        return false;
     }
 
     public static boolean shouldSpoofGMS() {
-        return SystemProperties.getBoolean(SPOOF_PIXEL_GMS, true);
+        return false;
     }
 
     private static void spoofBuildGms() {
@@ -365,7 +316,7 @@ public class PropsHooksUtils {
     }
 
     private static boolean shouldSpoofNetflix() {
-        return sIsNetflix && SystemProperties.getBoolean(SPOOF_NETFLIX, false);
+        return false;
     }
 
     private static boolean shouldSpoofPhotos() {
